@@ -13,7 +13,8 @@ public class Main {
     public static void main(String[] args) {
 
         Random random = new Random();
-        String userName = "Simple player";
+        String userName;
+        String repeat = "Do you want to repeat?";
 
 
         do {
@@ -49,19 +50,17 @@ public class Main {
 
 
             if (userLost) {
-                System.out.println("You lost, " + userName);
+                String messLost = String.format("You lost, %s", userName);
+                System.out.println(messLost);
             }
-            System.out.println("Do you want to repeat?");
-
         }
-        while (scanner.next().equalsIgnoreCase("yes"));
+        while (askYesNo(repeat));
         System.out.printf("Good bye, %s!", userName);
 
     }
 
 
     public static int askNumber(String message, int min, int max) {
-
 
         while (true) {
             try {
@@ -77,11 +76,47 @@ public class Main {
                 }
             } catch (InputMismatchException exception) {
                 String str = scanner.next();
-                System.out.println("You entered:" + str + " You should enter a number");
+                System.out.println("You entered:" + str + "! You should enter a number");
 
-            } 
-
+            }
         }
+    }
+
+
+    public static boolean askYesNo(String arg) {
+
+        String answer;
+        boolean keyExit;
+        boolean ret = true;
+        System.out.println(arg);
+
+        do {
+            Scanner in = new Scanner(System.in);
+            answer = in.next();
+
+            switch (answer) {
+                case "Y":
+                case "y": {
+                    ret = true;
+                    keyExit = false;
+                    break;
+                }
+                case "N":
+                case "n": {
+                    ret = false;
+                    keyExit = false;
+                    break;
+                }
+                default: {
+                    System.out.println("Incorrect answer. Enter y or n.");
+                    keyExit = true;
+                }
+            }
+        }
+        while (keyExit);
+        return ret;
+
+
     }
 
 }
